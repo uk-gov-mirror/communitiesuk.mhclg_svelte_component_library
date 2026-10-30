@@ -16,6 +16,7 @@
     enableColors = true,
     startsWithSearch = true,
     resetButton = false,
+    dropdownOverlay = false
   }: {
     options?: Option[];
     selected?: (string | number)[];
@@ -26,6 +27,7 @@
     enableColors?: boolean;
     startsWithSearch?: boolean;
     resetButton?: boolean;
+    dropdownOverlay?: boolean;
   } = $props();
 
   let showDropdown = $state(false);
@@ -170,7 +172,11 @@
   }
 </script>
 
-<div class="gem-c-select-with-search" bind:this={container}>
+<div
+        class="gem-c-select-with-search"
+        class:dropdown-overlay={dropdownOverlay}
+        bind:this={container}
+>
   <label class="govuk-label" for="ms-input">{label}</label>
   {#if hint}
     <div class="govuk-hint">{hint}</div>
@@ -717,5 +723,17 @@
 
   .choices__actions:empty {
     display: none;
+  }
+  :global(.gem-c-select-with-search.dropdown-overlay) {
+    position: relative;
+    z-index: 1000;
+  }
+
+  :global(.gem-c-select-with-search.dropdown-overlay)
+  .choices__list--dropdown {
+    position: absolute !important;
+    top: 100%;
+    left: 0;
+    z-index: 1001;
   }
 </style>
